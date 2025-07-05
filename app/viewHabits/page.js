@@ -2,7 +2,7 @@
 import React from "react";
 import {auth,db,} from "../../firebase/clientApp";
 import { useState ,useEffect } from "react";
-import {collection, getDocs, addDoc,doc,setDoc, updateDoc, getDoc} from 'firebase/firestore'
+import {collection, getDocs, addDoc,doc,setDoc, updateDoc, getDoc,deleteDoc, DocumentReference} from 'firebase/firestore'
 import { useSearchParams } from "next/navigation";
 
 
@@ -11,11 +11,21 @@ function ViewHabits(){
 
     const searchParams = useSearchParams();
     const [habitList,setHabitList] = useState([])
-    const [altered,setAltered] = useState(false)
+    const [removed,setRemoved] = useState(null)
 
      useEffect(() =>{
-        console.log(habitList)
-        setAltered(true)
+        console.log("asd")
+         
+        const deletehabit = async () =>{
+        console.log(removed)
+       
+        const DocRef = doc(db,`Users/${user}/Week/Day1/Habits/${removed.id}`)
+        await deleteDoc(DocRef)
+        console.log("deleted")
+
+        }
+        deletehabit()
+
     },[habitList])
 
     const user = searchParams.get('Userid')
@@ -44,6 +54,11 @@ function ViewHabits(){
 
         viewData()
     },[])
+
+
+    
+
+
     return(
         <div>
   <button onClick={async () => { await auth.signOut()}} className="bg-sky-500">sign out</button>
@@ -51,7 +66,7 @@ function ViewHabits(){
   <ul>
     {habitList.map((habit) =>{
         
-        return <li onClick={()=> {console.log(habit.id)}}>{habit.Name}{habit.Coin_Value}</li>
+        return <button onClick={()=> {setHabitList(habitList.filter(item => item != habit)), setRemoved(habit)}}>{habit.Name}{habit.Coin_Value}</button>
     })}
     
   </ul>
