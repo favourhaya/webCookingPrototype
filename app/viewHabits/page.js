@@ -9,8 +9,6 @@ import { useSearchParams } from "next/navigation";
 
 function ViewHabits(){
 
-   
-
     const searchParams = useSearchParams();
     const [habitList,setHabitList] = useState([])
     const [altered,setAltered] = useState(false)
@@ -47,7 +45,17 @@ function ViewHabits(){
         viewData()
     },[])
     return(
+        <div>
   <button onClick={async () => { await auth.signOut()}} className="bg-sky-500">sign out</button>
+
+  <ul>
+    {habitList.map((habit) =>{
+        
+        return <li onClick={()=> {console.log(habit.id)}}>{habit.Name}{habit.Coin_Value}</li>
+    })}
+    
+  </ul>
+  </div>
   )
 
 }
