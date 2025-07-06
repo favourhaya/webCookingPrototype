@@ -60,7 +60,7 @@ function ViewHabits(){
             ...doc.data()
          }))
 
-        console.log(List)
+        console.log("completed")
          setHabitList(List)
          console.log(habitList)
        
