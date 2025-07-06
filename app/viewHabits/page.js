@@ -12,30 +12,45 @@ function ViewHabits(){
     const searchParams = useSearchParams();
     const [habitList,setHabitList] = useState([])
     const [removed,setRemoved] = useState(null)
+    const [dayOfWeek,setDayOfWeek] = useState(null)
 
-     useEffect(() =>{
-        console.log("asd")
+    
+    useEffect(() =>{
+        const currentDate = new Date()
+        const day = currentDate.getDate()
+        
          
         const deletehabit = async () =>{
-        console.log(removed)
-       
-        const DocRef = doc(db,`Users/${user}/Week/Day1/Habits/${removed.id}`)
-        await deleteDoc(DocRef)
-        console.log("deleted")
+        
+                    //console.log(`Users/${user}/Week/Day${dayOfWeek}/Habits`)
+                
+            
+        const DocRef = doc(db,`Users/${user}/Week/Day${day+1}/Habits/${removed.id}`)
+        await updateDoc(DocRef,{
+            Coin_Value: removed.Coin_Value,
+            Name: removed.Name,
+            is_completed: true
+        })
+        
+        console.log("updated")
 
-        }
+    }
         deletehabit()
 
-    },[habitList])
+    },[habitList,removed])
 
     const user = searchParams.get('Userid')
 
     useEffect(() =>{
+        const currentDate = new Date()
+        const day = currentDate.getDate()
+        
+        
 
         const viewData = async () =>{
-
         //Day1 =doc(db,)
-        const userCollection = collection(db,`Users/${user}/Week/Day1/Habits`)
+        //console.log(`Users/${user}/Week/Day${day+1}/Habits`)
+        const userCollection = collection(db,`Users/${user}/Week/Day${day + 1}/Habits`)
          //const userRef = doc(userCollection, user)
         //console.log(userRef)
          const snapShot = await getDocs(userCollection)
@@ -49,15 +64,14 @@ function ViewHabits(){
          setHabitList(List)
          console.log(habitList)
        
-    }
-
-
+        }
         viewData()
+       
     },[])
 
 
     
-
+   
 
     return(
         <div>
