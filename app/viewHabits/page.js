@@ -48,8 +48,7 @@ function ViewHabits(){
         
 
         const viewData = async () =>{
-        //Day1 =doc(db,)
-        //console.log(`Users/${user}/Week/Day${day+1}/Habits`)
+        //Day1 =d        //console.log(`Users/${user}/Week/Day${day+1}/Habits`)
         const userCollection = collection(db,`Users/${user}/Week/Day${day + 1}/Habits`)
          //const userRef = doc(userCollection, user)
         //console.log(userRef)
